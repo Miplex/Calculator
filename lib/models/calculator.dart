@@ -36,7 +36,6 @@ class Calculator with ChangeNotifier {
         operation == '-' ||
         operation == '*' ||
         operation == '/') {
-      //не правильно работает разобраться
       _secondNum = double.parse(_currentNumber);
       _prevNumber = _currentNumber += value;
       _currentNumber = '0';
