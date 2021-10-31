@@ -7,6 +7,7 @@ class Calculator with ChangeNotifier {
   double _secondNum = 0.0;
   double _fontsize = 53.2;
   String operation = '';
+  String delimetr = '';
 
   double get getFontsize => _fontsize;
   String get getCurrentNumber => _currentNumber;
@@ -20,18 +21,39 @@ class Calculator with ChangeNotifier {
     if (_currentNumber == '0') {
       _currentNumber = '';
     }
+
+    addOperation(value);
+
+    changeSizeNumber(_currentNumber.length);
+
+    notifyListeners();
+  }
+
+  void changeSizeNumber(int size) {
+    if (size <= 9) {
+      _fontsize = 53.2;
+    } else if (size <= 14) {
+      _fontsize = 40.0;
+    } else if (size <= 18) {
+      _fontsize = 30.0;
+    } else if (size >= 20) {
+      _fontsize = 25.0;
+    }
+    notifyListeners();
+  }
+
+  void addOperation(String value) {
     if (value == '+' ||
         value == '-' ||
         value == '*' ||
         value == '/' ||
         value == '=') {
       operation = value;
-      //print(operation);
     }
+
     if (value != operation) {
       _currentNumber += value;
       _firstNum = double.parse(_currentNumber);
-      // print(_firstNum);
     } else if (operation == '+' ||
         operation == '-' ||
         operation == '*' ||
@@ -39,34 +61,18 @@ class Calculator with ChangeNotifier {
       _secondNum = double.parse(_currentNumber);
       _prevNumber = _currentNumber += value;
       _currentNumber = '0';
-
-      // print(_secondNum);
     }
-    // _currentNumber += value;
-    changeSizeNumber(_currentNumber.length);
-    notifyListeners();
-  }
-
-  changeSizeNumber(int size) {
-    if (size <= 9) {
-      _fontsize = 53.2;
-    } else if (size == 10) {
-      _fontsize = 43.0;
-    } else if (size == 15) {
-      _fontsize = 35.0;
-    }
-
-    return _fontsize;
   }
 
   void delete() {
     if (_currentNumber != '0') {
       _currentNumber = _currentNumber.substring(0, _currentNumber.length - 1);
+      changeSizeNumber(_currentNumber.length);
     }
     if (_currentNumber.isEmpty) {
       _currentNumber = '0';
     }
-    changeSizeNumber(_currentNumber.length);
+
     notifyListeners();
   }
 
@@ -80,16 +86,10 @@ class Calculator with ChangeNotifier {
     double computetion;
     if (_currentNumber != operation) {
       _firstNum = double.parse(_currentNumber);
-      // print(_firstNum);
     } else if (operation == '+' ||
         operation == '-' ||
         operation == '*' ||
-        operation == '/') {
-      // _prevNumber = _currentNumber + operation;
-      // _currentNumber = '0';
-      // _secondNum = double.parse(_currentNumber);
-      // print(_secondNum);
-    }
+        operation == '/') {}
 
     switch (operation) {
       case '+':
@@ -107,12 +107,8 @@ class Calculator with ChangeNotifier {
       default:
         return;
     }
-    _currentNumber = computetion.toString();
 
-    // print(_firstNum);
-    // print(_secondNum);
-    // print(operation);
-    // print(computetion);
-    // print(_currentNumber);
+    _currentNumber = computetion.toString();
+    changeSizeNumber(_currentNumber.length);
   }
 }

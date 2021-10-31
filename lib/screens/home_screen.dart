@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_grid_button/flutter_grid_button.dart';
 import 'package:provider/provider.dart';
 import 'package:calculator/models/calculator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../constants.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,47 +11,70 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Opacity(
-            opacity: 1.0,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Text(
-                (context).watch<Calculator>().getPrevNumber,
-                style: const TextStyle(
-                    fontSize: 37.2,
-                    color: kButtonColor,
-                    fontFamily: 'RobotoThin'),
-              ),
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            tileMode: TileMode.clamp,
+            colors: [
+              kLinearColorBegin,
+              kLinearColorEnd,
+            ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const SizedBox(
-                height: 150.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Text(((context).watch<Calculator>().getCurrentNumber),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Opacity(
+                  opacity: 1.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Text(
+                      (context).watch<Calculator>().getPrevNumber,
+                      style: const TextStyle(
+                          fontSize: 25.0,
+                          color: kButtonColor,
+                          fontFamily: 'LatoLight'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 80.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: AnimatedDefaultTextStyle(
+                    duration: const Duration(milliseconds: 300),
                     style: TextStyle(
                         fontSize: (context).watch<Calculator>().getFontsize,
                         color: kButtonColor,
-                        fontFamily: 'RobotoLight')),
-              ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-              child: const NumPad(),
+                        fontFamily: 'LatoRegular'),
+                    child: Text(
+                      ((context).watch<Calculator>().getCurrentNumber),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: const NumPad(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -64,7 +88,8 @@ class NumPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridButton(
-      borderColor: kBorderColor,
+      borderColor: ktransparent,
+      borderWidth: 0.0,
       onPressed: (value) {
         if (value == 'DEL') {
           (context).read<Calculator>().delete();
@@ -82,29 +107,32 @@ class NumPad extends StatelessWidget {
           GridButtonItem(
               title: 'AC',
               value: 'AC',
+              color: kOperationColor,
               textStyle: TextStyle(
-                  color: kButtonColor,
+                  color: kBackgroundAC,
                   fontSize: 24.0,
-                  fontFamily: 'RobotoLight',
+                  fontFamily: 'HelveticaNeueCyr',
                   fontWeight: FontWeight.w600),
               flex: 2),
           GridButtonItem(
-            title: 'DEL',
             value: 'DEL',
+            color: kOperationColor,
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
+            child: FaIcon(FontAwesomeIcons.backspace),
           ),
           GridButtonItem(
-            title: '/',
             value: '/',
+            color: kOperationColor,
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
+            child: FaIcon(FontAwesomeIcons.divide),
           ),
         ],
         [
@@ -114,7 +142,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -123,7 +151,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -132,17 +160,18 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
-            title: '*',
             value: '*',
+            color: kOperationColor,
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
+            child: FaIcon(FontAwesomeIcons.times),
           ),
         ],
         [
@@ -152,7 +181,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -161,7 +190,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -170,17 +199,18 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
-            title: '+',
             value: '+',
+            color: kOperationColor,
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
+            child: FaIcon(FontAwesomeIcons.plus),
           ),
         ],
         [
@@ -190,7 +220,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -199,7 +229,7 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
@@ -208,47 +238,44 @@ class NumPad extends StatelessWidget {
             textStyle: TextStyle(
                 color: kButtonColor,
                 fontSize: 24.0,
-                fontFamily: 'RobotoLight',
+                fontFamily: 'HelveticaNeueCyr',
                 fontWeight: FontWeight.w600),
           ),
           GridButtonItem(
-            title: '-',
             value: '-',
-            textStyle: TextStyle(
-                color: kButtonColor,
-                fontSize: 24.0,
-                fontFamily: 'RobotoLight',
-                fontWeight: FontWeight.w600),
+            color: kOperationColor,
+            textStyle:
+                TextStyle(color: kButtonColor, fontFamily: 'HelveticaNeueCyr'),
+            child: FaIcon(FontAwesomeIcons.minus),
           ),
         ],
         [
           GridButtonItem(
-            title: '.',
-            value: '.',
-            textStyle: TextStyle(
-                color: kButtonColor,
-                fontSize: 24.0,
-                fontFamily: 'RobotoLight',
-                fontWeight: FontWeight.w600),
-          ),
-          GridButtonItem(
-            title: '0',
-            value: '0',
-            textStyle: TextStyle(
-                color: kButtonColor,
-                fontSize: 24.0,
-                fontFamily: 'RobotoLight',
-                fontWeight: FontWeight.w600),
-          ),
-          GridButtonItem(
-              title: '=',
-              value: '=',
+              title: '0',
+              value: '0',
               textStyle: TextStyle(
                   color: kButtonColor,
                   fontSize: 24.0,
-                  fontFamily: 'RobotoLight',
+                  fontFamily: 'HelveticaNeueCyr',
+                  fontWeight: FontWeight.w600)),
+          GridButtonItem(
+              title: '.',
+              value: '.',
+              textStyle: TextStyle(
+                  color: kButtonColor,
+                  fontSize: 34.0,
+                  fontFamily: 'HelveticaNeueCyr',
                   fontWeight: FontWeight.w600),
               flex: 2),
+          GridButtonItem(
+              value: '=',
+              color: kEqualsColor,
+              textStyle: TextStyle(
+                  color: kButtonColor,
+                  fontSize: 20.0,
+                  fontFamily: 'HelveticaNeueCyr',
+                  fontWeight: FontWeight.w600),
+              child: FaIcon(FontAwesomeIcons.equals)),
         ]
       ],
     );
