@@ -31,14 +31,14 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Opacity(
-                  opacity: 1.0,
+                  opacity: (context).watch<Calculator>().getOpacity,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20.0),
                     child: Text(
                       (context).watch<Calculator>().getPrevNumber,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 25.0,
-                          color: kButtonColor,
+                          color: kButtonColor.withOpacity(0.6),
                           fontFamily: 'LatoLight'),
                     ),
                   ),
@@ -125,7 +125,7 @@ class NumPad extends StatelessWidget {
             child: FaIcon(FontAwesomeIcons.backspace),
           ),
           GridButtonItem(
-            value: '/',
+            value: '÷',
             color: kOperationColor,
             textStyle: TextStyle(
                 color: kButtonColor,

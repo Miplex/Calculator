@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 
 class Calculator with ChangeNotifier {
   String _currentNumber = '0';
-  String _prevNumber = '0';
+  String _prevNumber = '';
   double _firstNum = 0.0;
   double _secondNum = 0.0;
   double _fontsize = 53.2;
   String operation = '';
   String delimetr = '';
+  double _opacity = 0.0;
 
+  double get getOpacity => _opacity;
   double get getFontsize => _fontsize;
   String get getCurrentNumber => _currentNumber;
+
   String get getPrevNumber => _prevNumber;
 
   updateDisplay(String value) {
@@ -18,11 +21,33 @@ class Calculator with ChangeNotifier {
       return;
     }
 
-    if (_currentNumber == '0') {
+//______________check operations ___________//
+    if (_currentNumber == '0' && value == '÷') {
+      return _currentNumber;
+    } else if (_currentNumber == '0' && value == '*') {
+      return _currentNumber;
+    } else if (_currentNumber == '0' && value == '-') {
+      return _currentNumber;
+    } else if (_currentNumber == '0' && value == '+') {
+      return _currentNumber;
+    }
+    if (_currentNumber == '0' && value == '.') {
+      _currentNumber = '0';
+    } else if (_currentNumber == '0' && value != '.') {
       _currentNumber = '';
+    } else if (_currentNumber.contains('.') && value == '.') {
+      return _currentNumber;
     }
 
+//__________________________________________________//
+
+    // _prevNumber = removeDecimalZeroFormat(_firstNum);
+
     addOperation(value);
+
+    if (operation != '') {
+      _opacity = 1.0;
+    }
 
     changeSizeNumber(_currentNumber.length);
 
@@ -46,7 +71,7 @@ class Calculator with ChangeNotifier {
     if (value == '+' ||
         value == '-' ||
         value == '*' ||
-        value == '/' ||
+        value == '÷' ||
         value == '=') {
       operation = value;
     }
@@ -57,9 +82,8 @@ class Calculator with ChangeNotifier {
     } else if (operation == '+' ||
         operation == '-' ||
         operation == '*' ||
-        operation == '/') {
+        operation == '÷') {
       _secondNum = double.parse(_currentNumber);
-      _prevNumber = _currentNumber += value;
       _currentNumber = '0';
     }
   }
@@ -79,8 +103,16 @@ class Calculator with ChangeNotifier {
   void clear() {
     _currentNumber = '0';
     _prevNumber = '0';
-    notifyListeners();
+    operation = '';
+    _opacity = 0.0;
+    changeSizeNumber(_currentNumber.length);
   }
+
+  //__________________remove trailing zeros _____________//
+  String removeDecimalZeroFormat(double n) {
+    return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 1);
+  }
+  //__________________________________________________________//
 
   compute() {
     double computetion;
@@ -89,7 +121,9 @@ class Calculator with ChangeNotifier {
     } else if (operation == '+' ||
         operation == '-' ||
         operation == '*' ||
-        operation == '/') {}
+        operation == '÷') {
+      _secondNum = double.parse(_currentNumber);
+    }
 
     switch (operation) {
       case '+':
@@ -101,14 +135,21 @@ class Calculator with ChangeNotifier {
       case '*':
         computetion = _secondNum * _firstNum;
         break;
-      case '/':
+      case '÷':
         computetion = _secondNum / _firstNum;
         break;
       default:
         return;
     }
 
-    _currentNumber = computetion.toString();
+    _currentNumber = removeDecimalZeroFormat(computetion);
+    _prevNumber = removeDecimalZeroFormat(_secondNum) +
+        ' ' +
+        operation +
+        ' ' +
+        removeDecimalZeroFormat(_firstNum) +
+        ' =';
+    operation = '';
     changeSizeNumber(_currentNumber.length);
   }
 }
