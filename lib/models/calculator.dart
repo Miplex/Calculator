@@ -5,7 +5,7 @@ class Calculator with ChangeNotifier {
   String _prevNumber = '';
   double _firstNum = 0.0;
   double _secondNum = 0.0;
-  double _fontsize = 53.2;
+  double _fontsize = 70.0;
   String operation = '';
   String delimetr = '';
   double _opacity = 0.0;
@@ -13,13 +13,10 @@ class Calculator with ChangeNotifier {
   double get getOpacity => _opacity;
   double get getFontsize => _fontsize;
   String get getCurrentNumber => _currentNumber;
-
   String get getPrevNumber => _prevNumber;
 
   updateDisplay(String value) {
-    if (_currentNumber.length >= 16) {
-      return;
-    }
+    // if (_currentNumber.length >= 16) {
 
 //______________check operations ___________//
     if (_currentNumber == '0' && value == '÷') {
@@ -55,12 +52,12 @@ class Calculator with ChangeNotifier {
   }
 
   void changeSizeNumber(int size) {
-    if (size <= 9) {
-      _fontsize = 53.2;
-    } else if (size <= 14) {
-      _fontsize = 40.0;
-    } else if (size <= 18) {
-      _fontsize = 30.0;
+    if (size <= 5) {
+      _fontsize = 70.0;
+    } else if (size <= 9) {
+      _fontsize = 60.0;
+    } else if (size <= 12) {
+      _fontsize = 50.0;
     } else if (size >= 20) {
       _fontsize = 25.0;
     }
@@ -102,7 +99,7 @@ class Calculator with ChangeNotifier {
 
   void clear() {
     _currentNumber = '0';
-    _prevNumber = '0';
+    _prevNumber = '';
     operation = '';
     _opacity = 0.0;
     changeSizeNumber(_currentNumber.length);
@@ -141,8 +138,9 @@ class Calculator with ChangeNotifier {
       default:
         return;
     }
-
+    changeSizeNumber(_currentNumber.length);
     _currentNumber = removeDecimalZeroFormat(computetion);
+
     _prevNumber = removeDecimalZeroFormat(_secondNum) +
         ' ' +
         operation +
@@ -150,6 +148,5 @@ class Calculator with ChangeNotifier {
         removeDecimalZeroFormat(_firstNum) +
         ' =';
     operation = '';
-    changeSizeNumber(_currentNumber.length);
   }
 }

@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Opacity(
@@ -48,21 +48,24 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 80.0,
             ),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: AnimatedDefaultTextStyle(
-                    duration: const Duration(milliseconds: 300),
-                    style: TextStyle(
-                        fontSize: (context).watch<Calculator>().getFontsize,
-                        color: kButtonColor,
-                        fontFamily: 'LatoRegular'),
-                    child: Text(
-                      ((context).watch<Calculator>().getCurrentNumber),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 300),
+                      style: TextStyle(
+                          fontSize: (context).watch<Calculator>().getFontsize,
+                          color: kButtonColor,
+                          fontFamily: 'LatoRegular'),
+                      child: Text(
+                        ((context).watch<Calculator>().getCurrentNumber),
+                      ),
                     ),
                   ),
+                  alignment: const Alignment(1.0, 1.0),
                 ),
               ],
             ),
